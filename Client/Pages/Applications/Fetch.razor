@@ -1,0 +1,63 @@
+﻿@page "/application"
+@inject HttpClient client
+@inject IJSRuntime js
+
+<h3>Applications</h3>
+<small>Add application to your portfolio</small>
+<div class="form-group">
+    <a class="btn btn-success" href="application/create"><i class="oi oi-plus"></i> Create New</a>
+</div>
+<br>
+
+@if (applications == null)
+{
+    <text>Loading...</text>
+}
+else if (applications.Length == 0)
+{
+    <text>No Records Found.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Application Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Application app in applications)
+            {
+                <tr>
+                    <td>@app.Id</td>
+                    <td>@app.Name</td>
+                    
+                    <td>
+                        <a class="btn btn-success" href="application/edit/@app.Id">Edit</a>
+                        <button class="btn btn-danger" @onclick="@(() => Delete(app.Id))">Delete</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+@code {
+    Application[] applications { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        applications = await client.GetFromJsonAsync<Application[]>("api/application");
+    }
+
+    async Task Delete(int appId)
+    {
+        var app = applications.First(x => x.Id == appId);
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete the app named '{app.Name}' ?"))
+        {
+            await client.DeleteAsync($"api/application/{appId}");
+            await OnInitializedAsync();
+        }
+    }
+}

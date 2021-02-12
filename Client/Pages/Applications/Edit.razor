@@ -1,0 +1,26 @@
+﻿@page "/application/edit/{appId:int}"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+
+<h3>Edit</h3>
+
+<Form ButtonText="Update" app="app"
+      OnValidSubmit="@EditApplication" />
+
+@code {
+    [Parameter] public int appId { get; set; }
+    Application app = new Application();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        app = await http.GetFromJsonAsync<Application>($"api/application/{appId}");
+    }
+
+    async Task EditApplication()
+    {
+        await http.PutAsJsonAsync("api/application", app);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("application");
+    }
+}
