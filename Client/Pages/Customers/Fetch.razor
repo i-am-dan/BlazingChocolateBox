@@ -1,0 +1,47 @@
+﻿@page "/customer"
+@inject HttpClient client
+@inject IJSRuntime js
+
+<h3>Customers</h3>
+<br />
+@if (customers == null)
+{
+    <text>Loading...</text>
+}
+else if (customers.Length == 0)
+{
+    <text>No Records Found.</text>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Customer Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Customer customer in customers)
+            {
+            <tr>
+                <td>@customer.Id</td>
+                <td>@customer.TopParentName</td>
+                <td>
+                    <a class="btn btn-success" href="customer/edit/@customer.Id">Edit</a>
+                </td>
+            </tr>
+
+            }
+
+        </tbody>
+    </table>
+}
+@code {
+    Customer[] customers { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await client.GetFromJsonAsync<Customer[]>("api/customer");
+    }
+}

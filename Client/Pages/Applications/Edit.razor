@@ -1,4 +1,4 @@
-﻿@page "/application/edit/{appId:int}"
+﻿@page "/application/edit/{appId:guid}"
 @inject HttpClient http
 @inject NavigationManager uriHelper
 @inject IJSRuntime js
@@ -9,7 +9,7 @@
       OnValidSubmit="@EditApplication" />
 
 @code {
-    [Parameter] public int appId { get; set; }
+    [Parameter] public Guid appId { get; set; }
     Application app = new Application();
 
     protected async override Task OnParametersSetAsync()

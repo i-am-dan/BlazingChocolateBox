@@ -32,7 +32,7 @@ else
             {
                 <tr>
                     <td>@app.Id</td>
-                    <td>@app.Name</td>
+                    <td>@app.ApplicationName</td>
                     
                     <td>
                         <a class="btn btn-success" href="application/edit/@app.Id">Edit</a>
@@ -51,10 +51,10 @@ else
         applications = await client.GetFromJsonAsync<Application[]>("api/application");
     }
 
-    async Task Delete(int appId)
+    async Task Delete(Guid appId)
     {
         var app = applications.First(x => x.Id == appId);
-        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete the app named '{app.Name}' ?"))
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete the app named '{app.ApplicationName}' ?"))
         {
             await client.DeleteAsync($"api/application/{appId}");
             await OnInitializedAsync();

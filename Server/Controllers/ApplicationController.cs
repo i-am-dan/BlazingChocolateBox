@@ -10,6 +10,8 @@ namespace BlazingChocolate.Server.Controllers
     [ApiController]
     public class ApplicationController : Controller
     {
+        public static int _id;
+
         private AppDbContext _context;
 
         public ApplicationController (AppDbContext context)
@@ -25,7 +27,7 @@ namespace BlazingChocolate.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
             var apps = await _context.Applications.FirstOrDefaultAsync(a => a.Id == id);
             return Ok(apps);
@@ -34,7 +36,12 @@ namespace BlazingChocolate.Server.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Application app)
         {
-            app.CreatedDate = DateTime.Now;
+            _id += 1;
+            app.SubscriptionGuid = Guid.NewGuid();
+            app.audCreatedOn = DateTime.Now;
+            app.audCreatedBy = "RandomUser" + _id.ToString();
+            app.audModifiedOn = DateTime.Now;
+            app.audModifiedBy = "RandomUser" + _id.ToString();
 
             _context.Add(app);
 
@@ -52,7 +59,7 @@ namespace BlazingChocolate.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var app = new Application { Id = id };
             _context.Remove(app);

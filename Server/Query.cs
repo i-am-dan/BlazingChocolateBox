@@ -17,11 +17,11 @@ namespace BlazingChocolate.Server
         /// <summary>
         /// Gets all Customers.
         /// </summary>
-        //[UseDbContext(typeof(AppDbContext))]
-        //[UseProjection]
-        //[UseFiltering]
-        //[UseSorting]
-        //public IQueryable<Customer> GetCustomers([ScopedService] AppDbContext appDbContext) => appDbContext.Customers;
+        [UseDbContext(typeof(AppDbContext))]
+        [UseProjection]
+        [UseFiltering]
+        [UseSorting]
+        public IQueryable<Application> GetApplications([ScopedService] AppDbContext appDbContext) => appDbContext.Applications;
 
     }
 }

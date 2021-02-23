@@ -26,18 +26,17 @@ namespace BlazingChocolate.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddPooledDbContextFactory<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:dkmbox"]));
+            //services.AddPooledDbContextFactory<AppDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:dkmbox"]));
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:motherbox"]));
             
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            //services.AddGraphQLServer()
-            //    .AddProjections()
-            //    .AddQueryType<Query>()
-            //    .AddSorting()
-            //    .AddFiltering();
+            services.AddGraphQLServer()
+                .AddProjections()
+                .AddQueryType<Query>()
+                .AddSorting()
+                .AddFiltering();
         }   
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,7 +63,7 @@ namespace BlazingChocolate.Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                //endpoints.MapGraphQL();
+                endpoints.MapGraphQL();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });

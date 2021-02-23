@@ -10,10 +10,25 @@ namespace BlazingChocolate.Shared
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public Guid Id { get; set; }
+        public string ApplicationName { get; set; }
+        public Guid SubscriptionGuid { get; set; }
+        public DateTime audCreatedOn { get; set; }
+        public DateTime audModifiedOn { get; set; }
+        public string audCreatedBy { get; set; }
+        public string audModifiedBy { get; set; }
+
     }
+
+    public class Customer
+    {
+        [Key]
+        public Int64 Id { get; set; }
+        public string OrganizationName { get; set; }
+        public Int64 TopParentOrganizationId { get; set; }
+        public string TopParentName { get; set; }
+    }
+
     //public class Customer
     //{
     //    // makesure to say CustomerId as Unique & !Null & Index so it won't allow duplicates
@@ -60,6 +75,4 @@ namespace BlazingChocolate.Shared
     //    public string SubscriptionId { get; set; }
     //    public Subscription Subscription { get; set; }
     //}
-
-
 }
