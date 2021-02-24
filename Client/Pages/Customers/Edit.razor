@@ -4,9 +4,9 @@
 @inject IJSRuntime js
 
 <h3>Customer</h3>
-<div class="form-group">
-    <a class="btn btn-success" href="customer"><i class="oi oi-plus"></i>Back</a>
-</div>
+<NavLink class="nav-link" href="customer">
+    <span class="btn btn-success" aria-hidden="true">Back</span>
+</NavLink>
 
 @if (customer == null)
 {
@@ -15,23 +15,23 @@
 else
 {
     <small>Name</small>
-    <label>@customer.TopParentName</label>
+    <label>@customerId</label>
 }
 
 @code {
     [Parameter] public Int64 customerId { get; set; }
     Customer customer = new Customer();
 
-    protected async override Task OnParametersSetAsync()
-    {
-        customer = await http.GetFromJsonAsync<Customer>($"api/customer/{customerId}");
-    }
+    //protected async override Task OnParametersSetAsync()
+    //{
+    //    customer = await http.GetFromJsonAsync<Customer>($"api/customer/{customerId}");
+    //}
 
-    async Task EditCustomer()
-    {
-        await http.PutAsJsonAsync("api/customer", customer);
-        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
-        uriHelper.NavigateTo("customer");
+    //async Task EditCustomer()
+    //{
+    //    await http.PutAsJsonAsync("api/customer", customer);
+    //    await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+    //    uriHelper.NavigateTo("customer");
 
-    }
+    //}
 }

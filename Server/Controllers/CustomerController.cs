@@ -27,6 +27,7 @@ namespace BlazingChocolate.Server.Controllers
         }
 
         [HttpGet("{id}")]
+        [Produces("application/json")]
         public async Task<IActionResult> Get(int id)
         {
             var customer = await _context.Customers.FirstOrDefaultAsync(a => a.Id == id);
