@@ -4,4 +4,6 @@ Client/[Oo]bj/
 Client/[Bb]in/
 Shared/[Bb]in/
 Shared/[Oo]bj/
-.vs/BlazinChocolate/
+.vs/BlazinChocolate/*
+.vs
+
